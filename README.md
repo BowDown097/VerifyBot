@@ -9,7 +9,7 @@ The bot for the [BTD6 Mods & Discussion Discord server](https://discord.gg/nuMvg
 </p>
 
 ## Running your own instance of the bot
-You'll need to create a file named config.json in the bot's binary directory. It needs to look EXACTLY like this:
+You'll need to create a file named config.json in the working directory. It needs to look EXACTLY like this:
 ```json
 {
     "botToken": "[DISCORD BOT TOKEN]",
@@ -18,3 +18,25 @@ You'll need to create a file named config.json in the bot's binary directory. It
 }
 ```
 What to plug in can be figured out through some simple googling.
+
+## Docker setup
+**NOTE:** The config.json is expected to be in the same directory as the Dockerfile in order for it to be copied into the correct location within the container.
+
+To run:
+```
+docker compose up --build
+```
+To view logs:
+```
+docker compose logs -f verifybot
+```
+To enter the container in a shell:
+```
+docker compose run verifybot bash
+```
+Or to do the same as root:
+```
+docker compose run -u root verifybot bash
+```
+
+Check `docker compose --help` for more info.

@@ -1,0 +1,4 @@
+services:
+    verifybot:
+        build: .
+        restart: unless-stopped

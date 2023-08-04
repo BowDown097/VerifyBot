@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 project(VerifyBot LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -34,8 +34,7 @@ target_link_libraries(VerifyBot cpr::cpr)
 # DPP
 find_package(DPP QUIET)
 if(DPP_FOUND)
-    target_link_libraries(VerifyBot ${DPP_LIBRARIES})
-    target_include_directories(VerifyBot PUBLIC ${DPP_INCLUDE_DIR})
+    target_link_libraries(VerifyBot dpp::dpp)
 else()
     # get version 10.0.24 (latest as of 7/1/2023)
     option(BUILD_VOICE_SUPPORT "" OFF)
