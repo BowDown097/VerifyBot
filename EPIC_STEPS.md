@@ -1,6 +1,6 @@
 # Epic Games Verification Guide
 1. Go to https://legendary.gl/epiclogin and accept the authorization message if there is one. You should see a page (JSON file) that shows a ``redirectUrl``, ``authorizationCode``, and ``sid``.
-2. Run the **/verifyepic** command in the #verify channel and paste in the ``authorizationCode`` from the above step. If you don't know what you're doing, see the below images.
+2. Run the **/verifyepic** command in the #verify channel and paste the ``authorizationCode`` from the above step inside of the dialog. If you don't know what you're doing, see the below images.
 
 ### Firefox
 <img src="https://github.com/BowDown097/VerifyBot/assets/42720004/f0cd87ec-4e2f-488b-9523-cab9bf63f404" width="416" height="310" />
