@@ -6,7 +6,7 @@
 
 namespace Verification
 {
-    enum class VerifyState { NoSteamConnected, NoBtd6, Success };
+    enum class SteamVerifyState { NoSteamConnected, NoBtd6, Success };
 
     void killEpicAccessToken(const std::string& accessToken, const std::string& auth)
     {
@@ -16,11 +16,11 @@ namespace Verification
         );
     }
 
-    void verifySuccessful(dpp::cluster& client, const dpp::interaction_create_t& event)
+    void verifySuccessful(dpp::cluster& client, const dpp::interaction_create_t& event, dpp::snowflake verifiedRole)
     {
         event.reply("You were verified successfully!");
         std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-        client.guild_member_add_role(event.command.guild_id, event.command.get_issuing_user().id, Constants::VerifiedSteamRoleId);
+        client.guild_member_add_role(event.command.guild_id, event.command.get_issuing_user().id, verifiedRole);
 
         dpp::snowflake channelId = event.command.channel_id;
         client.messages_get(channelId, 0, 0, Constants::VerifyInstructMsgId, 50, [channelId, &client](const dpp::confirmation_callback_t& callback) {
@@ -118,7 +118,7 @@ namespace Verification
         });
 
         if (ownsBtd6)
-            verifySuccessful(client, event);
+            verifySuccessful(client, event, Constants::VerifiedEpicRoleId);
         else
             event.reply(Constants::VerifyNoBTD6EpicTPL);
 
@@ -139,7 +139,7 @@ namespace Verification
         }
 
         nlohmann::json responseJson = nlohmann::json::parse(response.text);
-        VerifyState verifyState = VerifyState::NoSteamConnected;
+        SteamVerifyState verifyState = SteamVerifyState::NoSteamConnected;
 
         for (const nlohmann::basic_json<>& item : responseJson["connected_accounts"])
         {
@@ -147,7 +147,7 @@ namespace Verification
             if (type != "steam")
                 continue;
 
-            verifyState = VerifyState::NoBtd6;
+            verifyState = SteamVerifyState::NoBtd6;
             std::string id = item["id"].template get<std::string>();
             std::string ownedUrl = std::format(
                 "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key={}&steamid={}",
@@ -171,21 +171,21 @@ namespace Verification
 
             if (ownsBtd6)
             {
-                verifyState = VerifyState::Success;
+                verifyState = SteamVerifyState::Success;
                 break;
             }
         }
 
         switch (verifyState)
         {
-        case VerifyState::NoBtd6:
+        case SteamVerifyState::NoBtd6:
             event.reply(Constants::VerifyNoBTD6SteamTPL);
             break;
-        case VerifyState::NoSteamConnected:
+        case SteamVerifyState::NoSteamConnected:
             event.reply(Constants::VerifyNoSteamTPL);
             break;
-        case VerifyState::Success:
-            verifySuccessful(client, event);
+        case SteamVerifyState::Success:
+            verifySuccessful(client, event, Constants::VerifiedSteamRoleId);
             break;
         }
     }
