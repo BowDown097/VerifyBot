@@ -25,7 +25,7 @@ namespace Commands
         dpp::embed embed = dpp::embed()
            .set_color(dpp::colors::blue)
            .set_title("FAQ")
-           .add_field("How do I get the mods?", std::format(Constants::FAQA1TPL, c.get_mention()))
+           .add_field("How do I get the mods?", std::format(Constants::FAQA1TPL, dpp::channel::get_mention(Constants::VerifyChanId)))
            .add_field("How do I make mods?", Constants::FAQA2TPL)
            .add_field("Will I get banned for using mods?", Constants::FAQA3TPL)
            .add_field("How can I test upcoming mods?", Constants::FAQA4TPL)
