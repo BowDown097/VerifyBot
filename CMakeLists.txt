@@ -3,15 +3,14 @@ project(VerifyBot LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath='$ORIGIN'")
 
 add_executable(VerifyBot
-    main.cpp
-    botcommandhandler.h botcommandhandler.cpp
-    botconfig.h botconfig.cpp
-    commands.h commands.cpp
-    constants.h
-    verification.h verification.cpp
+    src/main.cpp
+    src/botcommandhandler.h src/botcommandhandler.cpp
+    src/botconfig.h src/botconfig.cpp
+    src/commands.h src/commands.cpp
+    src/constants.h
+    src/verification.h src/verification.cpp
 )
 
 include(FetchContent)
