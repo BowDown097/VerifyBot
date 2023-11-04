@@ -70,6 +70,13 @@ namespace Verification
                 event.reply(msg);
                 return;
             }
+            else if (errorCode == "errors.com.epicgames.account.oauth.authorization_code_not_found")
+            {
+                event.reply("The authorization code you supplied is invalid. Take a look at the "
+                            "[verification guide](<https://github.com/BowDown097/VerifyBot/blob/master/EPIC_STEPS.md>) "
+                            "again and make sure you are supplying the correct, 32 character long code.");
+                return;
+            }
             else
             {
                 event.reply("Failed to start session, error code " + errorCode);
