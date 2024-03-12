@@ -1,7 +1,7 @@
 #include "botconfig.h"
+#include <dpp/json.h>
 #include <fstream>
 #include <iostream>
-#include <dpp/json.h>
 
 void BotConfig::initialize()
 {

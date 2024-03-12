@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(VerifyBot LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(VerifyBot
@@ -10,6 +10,7 @@ add_executable(VerifyBot
     src/botconfig.h src/botconfig.cpp
     src/commands.h src/commands.cpp
     src/constants.h
+    src/format_polyfill.h
     src/verification.h src/verification.cpp
 )
 
@@ -48,6 +49,12 @@ else()
     endif()
 
     target_link_libraries(VerifyBot dpp)
+endif()
+
+# fmt if < c++20
+if(CMAKE_CXX_STANDARD LESS 20)
+    find_package(fmt REQUIRED)
+    target_link_libraries(VerifyBot fmt::fmt)
 endif()
 
 install(TARGETS VerifyBot

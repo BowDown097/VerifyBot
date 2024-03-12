@@ -1,6 +1,7 @@
 #include "commands.h"
-#include "verification.h"
 #include "constants.h"
+#include "format_polyfill.h"
+#include "verification.h"
 #include <cpr/cpr.h>
 #include <dpp/dpp.h>
 

@@ -1,6 +1,7 @@
 #include "verification.h"
 #include "botconfig.h"
 #include "constants.h"
+#include "format_polyfill.h"
 #include <cpr/cpr.h>
 #include <dpp/dpp.h>
 
@@ -35,7 +36,9 @@ namespace Verification
 
             dpp::message_map messages = std::get<dpp::message_map>(callback.value);
             std::vector<dpp::snowflake> messageIds(messages.size());
-            std::ranges::transform(messages, messageIds.begin(), [](const auto& pair) { return pair.first; });
+            std::transform(messages.cbegin(), messages.cend(), messageIds.begin(), [](const auto& pair) {
+                return pair.first;
+            });
             client.message_delete_bulk(messageIds, channelId);
         });
     }
@@ -120,7 +123,7 @@ namespace Verification
             return;
         }
 
-        bool ownsBtd6 = std::ranges::any_of(entitlementsJson, [](const nlohmann::basic_json<>& item) {
+        bool ownsBtd6 = std::any_of(entitlementsJson.cbegin(), entitlementsJson.cend(), [](const nlohmann::basic_json<>& item) {
             return item["namespace"].template get<std::string>() == Constants::BTD6EpicId;
         });
 
@@ -172,7 +175,8 @@ namespace Verification
             if (ownedResponseJson.empty())
                 continue;
 
-            bool ownsBtd6 = std::ranges::any_of(ownedResponseJson["response"]["games"], [](const nlohmann::basic_json<>& item) {
+            nlohmann::basic_json<> games = ownedResponseJson["response"]["games"];
+            bool ownsBtd6 = std::any_of(games.cbegin(), games.cend(), [](const nlohmann::basic_json<>& item) {
                 return item["appid"].template get<uint32_t>() == Constants::BTD6SteamId;
             });
 
