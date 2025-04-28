@@ -16,23 +16,32 @@ namespace Commands
             return;
         }
 
-        dpp::channel c = client.channel_get_sync(std::get<dpp::snowflake>(parameter));
-        if (!c.is_text_channel())
-        {
-            event.reply("Channel must be a text channel.");
-            return;
-        }
+        client.channel_get(std::get<dpp::snowflake>(parameter), [&client, &event](const dpp::confirmation_callback_t& callback) {
+            if (callback.is_error())
+            {
+                dpp::error_info error = callback.get_error();
+                event.reply(std::format("Could not get channel from input: error {} [{}]", error.code, error.message));
+                return;
+            }
 
-        dpp::embed embed = dpp::embed()
-           .set_color(dpp::colors::blue)
-           .set_title("FAQ")
-           .add_field("How do I get the mods?", std::format(Constants::FAQA1TPL, dpp::channel::get_mention(Constants::VerifyChanId)))
-           .add_field("How do I make mods?", Constants::FAQA2TPL)
-           .add_field("Will I get banned for using mods?", Constants::FAQA3TPL)
-           .add_field("How can I test upcoming mods?", Constants::FAQA4TPL)
-           .add_field("How do I get the YouTubers role?", std::format(Constants::FAQA5TPL, dpp::channel::get_mention(Constants::YTAnnounceChanId)))
-           .add_field("How do I get the Modders role?", Constants::FAQA6TPL);
-        client.message_create(dpp::message(c.id, embed));
+            dpp::channel c = callback.get<dpp::channel>();
+            if (!c.is_text_channel())
+            {
+                event.reply("Channel must be a text channel.");
+                return;
+            }
+
+            dpp::embed embed = dpp::embed()
+                .set_color(dpp::colors::blue)
+                .set_title("FAQ")
+                .add_field("How do I get the mods?", std::format(Constants::FAQA1TPL, dpp::channel::get_mention(Constants::VerifyChanId)))
+                .add_field("How do I make mods?", Constants::FAQA2TPL)
+                .add_field("Will I get banned for using mods?", Constants::FAQA3TPL)
+                .add_field("How can I test upcoming mods?", Constants::FAQA4TPL)
+                .add_field("How do I get the YouTubers role?", std::format(Constants::FAQA5TPL, dpp::channel::get_mention(Constants::YTAnnounceChanId)))
+                .add_field("How do I get the Modders role?", Constants::FAQA6TPL);
+            client.message_create(dpp::message(c.id, embed));
+        });
     }
 
     void verifyEpicGames(dpp::cluster& client, const dpp::slashcommand_t& event)

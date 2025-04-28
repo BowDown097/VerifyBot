@@ -8,7 +8,7 @@ BotCommandHandler::BotCommandHandler(dpp::cluster& cluster) : cluster(cluster)
 void BotCommandHandler::addCommand(const dpp::slashcommand& cmd, commandFunc func)
 {
     cluster.global_command_create(cmd);
-    commands.insert({cmd.name, func});
+    commands.emplace(cmd.name, func);
 }
 
 void BotCommandHandler::handOver(const dpp::slashcommand_t& event)
