@@ -144,7 +144,7 @@ namespace Verification
 
         if (response.status_code >= 400)
         {
-            event.reply(std::format(Constants::VerifyDAPIFailTPL, response.status_code, response.status_line));
+            event.reply(std::format(Constants::VerifyDAPIFailTPL, response.status_code, response.reason));
             return;
         }
 
@@ -167,7 +167,7 @@ namespace Verification
             cpr::Response ownedResponse = cpr::Get(cpr::Url(ownedUrl));
             if (ownedResponse.status_code >= 400)
             {
-                event.reply(std::format(Constants::VerifySAPIFailTPL, response.status_code, response.status_line));
+                event.reply(std::format(Constants::VerifySAPIFailTPL, ownedResponse.status_code, ownedResponse.reason));
                 return;
             }
 
