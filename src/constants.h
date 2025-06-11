@@ -26,7 +26,7 @@ namespace Constants
     constexpr uint64_t VerifiedSteamRoleId = 511848372999553035;
     constexpr uint64_t YTAnnounceChanId = 787834326917316628;
 
-    constexpr auto VerifyDAPIFailTPL = "Failed to get profile info. Status code: {} Reason: {}";
+    constexpr auto VerifyDAPIFailTPL = "Failed to get profile info. Status code: {}";
     constexpr auto VerifyNoBTD6EpicTPL = "I could not find BTD6 in your Epic Games Store games list. Make sure the account you're "
                                          "using has the game, then try again.";
     constexpr auto VerifyNoBTD6SteamTPL = "I could not find BTD6 in your Steam games list. Do you perhaps not have your games "
@@ -34,7 +34,8 @@ namespace Constants
                                           "make your account/games public, look it up.";
     constexpr auto VerifyNoSteamTPL = "I could not find Steam in your connected accounts. Do you perhaps not have it "
                                       "connected? Make sure you do in Discord Settings -> Connections, then try again.";
-    constexpr auto VerifySAPIFailTPL = "Steam API request failed. Status code: {} Reason: {}";
+    constexpr auto VerifySAPIFailTPL = "Steam API request failed. Status code: {}";
+    constexpr auto VerifySAPIRateLimited = "I am not able to get your owned games at this time due to being rate limited. Please try again later.";
     constexpr auto VerifyWrongChannelTPL = "Please execute this command in {}.";
 }
 
